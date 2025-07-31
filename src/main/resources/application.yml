@@ -6,11 +6,29 @@ spring:
         uri: lb://products
         predicates:
         - Path=/api/products/**
+        # predicates -> condiciones que se tienen que cumplir o da error 404
+        #- Header=token, 12345
+        #- Header=token, \d+ #se puede usar una expresion regular 
+        #- Method=GET, POST
+        #- Query=color, verde # asi obligo a que el query tenga un valor especifico
+        #- Query=color
+        #- Cookie=color, azul
         filters:
         - StripPrefix=2
+        - name: SampleCookieNewName
+          args:
+            cookieName: CookieUser
+            cookieValue: ValueLlima
+            message: "Mi filtro personalizado de cookies"
       - id: items
         uri: lb://items
         predicates:
         - Path=/api/items/**
         filters:
         - StripPrefix=2
+        - AddRequestHeader=Authorization-request, Bearer request.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        - AddResponseHeader=Authorization-response, Bearer response.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        - AddRequestParameter=AuthorizationName, Bearer Llima
+        - SetResponseHeader=Content-Type, text/plain
+        # mas filtros de ejemplo    
+        #https://docs.spring.io/spring-cloud-gateway/reference/spring-cloud-gateway-server-webflux/gatewayfilter-factories/addrequestparameter-factory.html

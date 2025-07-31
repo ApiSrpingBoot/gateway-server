@@ -1,4 +1,4 @@
-package ec.llima.springcloud.ms.gateway.gateway_server;
+package ec.llima.springcloud.ms.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
